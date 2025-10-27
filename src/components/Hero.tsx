@@ -13,7 +13,7 @@ const Hero = () => {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=1920&q=80"
+          src="/hero-preschool-new.jpg"
           alt="Happy children learning and playing at Mahatma Valley Pre-school"
           className="w-full h-full object-cover object-center"
         />
@@ -38,17 +38,17 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12 px-4">
-            <Button 
-              variant="hero" 
-              size="xl" 
+            <Button
+              variant="hero"
+              size="xl"
               className="animate-bounce-gentle w-full sm:w-auto"
               onClick={() => setShowLeadForm(true)}
             >
               Apply Now for 2025-26
             </Button>
-            <Button 
-              variant="outline" 
-              size="xl" 
+            <Button
+              variant="outline"
+              size="xl"
               className="bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white hover:text-foreground w-full sm:w-auto"
               onClick={() => setShowVisitScheduler(true)}
             >
@@ -96,13 +96,13 @@ const Hero = () => {
             <div className="w-1 h-3 bg-white/70 rounded-full mt-2 animate-pulse"></div>
           </div>
         </div>
-        
+
         <LeadForm
           isOpen={showLeadForm}
           onClose={() => setShowLeadForm(false)}
           type="application"
         />
-        
+
         <VisitScheduler
           isOpen={showVisitScheduler}
           onClose={() => setShowVisitScheduler(false)}

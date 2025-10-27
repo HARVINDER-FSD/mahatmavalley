@@ -3,12 +3,12 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import VisitScheduler from "@/components/modals/VisitScheduler";
-import { 
-  TreePine, 
-  Waves, 
-  BookOpenCheck, 
-  Music, 
-  Heart, 
+import {
+  TreePine,
+  Waves,
+  BookOpenCheck,
+  Music,
+  Heart,
   Palette,
   Gamepad2
 } from "lucide-react";
@@ -26,7 +26,7 @@ const facilities = [
   },
   {
     id: 2,
-    title: "Swimming Pool", 
+    title: "Swimming Pool",
     icon: Waves,
     color: "from-info to-info-soft",
     description: "Child-friendly swimming pool with qualified instructors for water safety and basic swimming skills.",
@@ -38,7 +38,7 @@ const facilities = [
     id: 3,
     title: "Learning Library",
     icon: BookOpenCheck,
-    color: "from-primary to-primary-soft", 
+    color: "from-primary to-primary-soft",
     description: "Cozy reading spaces filled with age-appropriate books and interactive learning materials.",
     fullDescription: "Our library features thousands of carefully selected books, comfortable reading nooks, and interactive learning stations that encourage a love for reading and exploration.",
     image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=800&q=80",
@@ -68,7 +68,7 @@ const facilities = [
     id: 8,
     title: "Art Studio",
     icon: Palette,
-    color: "from-accent to-accent-soft", 
+    color: "from-accent to-accent-soft",
     description: "Creative space equipped with art supplies and tools for unlimited artistic expression.",
     fullDescription: "Well-lit art studio with easels, paints, clay, and various art materials where children can explore their creativity under guidance of art specialists.",
     image: null,
@@ -178,8 +178,8 @@ const Facilities = () => {
               <Button variant="hero" size="lg" onClick={() => setShowVisitScheduler(true)}>
                 Schedule Campus Tour
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="lg"
                 onClick={() => {
                   // Open virtual tour link or contact for virtual tour
@@ -192,7 +192,7 @@ const Facilities = () => {
           </div>
         </div>
       </div>
-      
+
       <VisitScheduler
         isOpen={showVisitScheduler}
         onClose={() => setShowVisitScheduler(false)}
