@@ -12,8 +12,6 @@ import {
   Palette,
   Gamepad2
 } from "lucide-react";
-import playgroundImage from "@/assets/playground.jpg";
-import libraryImage from "@/assets/library.jpg";
 
 const facilities = [
   {
@@ -23,7 +21,7 @@ const facilities = [
     color: "from-secondary to-secondary-soft",
     description: "Safe, modern playground equipment designed for different age groups with soft play surfaces.",
     fullDescription: "Our state-of-the-art playground features age-appropriate equipment including slides, swings, climbing structures, and sandbox areas. All equipment meets international safety standards with impact-absorbing surfaces and regular maintenance.",
-    image: playgroundImage,
+    image: "https://images.unsplash.com/photo-1596464716127-f2a82984de30?auto=format&fit=crop&w=800&q=80",
     features: ["Age-appropriate equipment", "Soft play surfaces", "Shaded areas", "Safety certified"]
   },
   {
@@ -43,7 +41,7 @@ const facilities = [
     color: "from-primary to-primary-soft", 
     description: "Cozy reading spaces filled with age-appropriate books and interactive learning materials.",
     fullDescription: "Our library features thousands of carefully selected books, comfortable reading nooks, and interactive learning stations that encourage a love for reading and exploration.",
-    image: libraryImage,
+    image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=800&q=80",
     features: ["Age-appropriate books", "Reading nooks", "Interactive stations", "Quiet study areas"]
   },
   {

@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Calendar, Users, Award } from "lucide-react";
-import heroImage from "@/assets/hero-preschool-new.jpg";
 import { useState } from "react";
 import LeadForm from "@/components/modals/LeadForm";
 import VisitScheduler from "@/components/modals/VisitScheduler";
@@ -14,7 +13,7 @@ const Hero = () => {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src={heroImage}
+          src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=1920&q=80"
           alt="Happy children learning and playing at Mahatma Valley Pre-school"
           className="w-full h-full object-cover object-center"
         />
