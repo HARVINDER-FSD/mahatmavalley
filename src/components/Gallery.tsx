@@ -156,8 +156,8 @@ const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedImage, setSelectedImage] = useState<typeof galleryImages[0] | null>(null);
 
-  const filteredImages = selectedCategory === "All" 
-    ? galleryImages 
+  const filteredImages = selectedCategory === "All"
+    ? galleryImages
     : galleryImages.filter(img => img.category === selectedCategory);
 
   return (
@@ -181,11 +181,10 @@ const Gallery = () => {
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${
-                  selectedCategory === category
+                className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${selectedCategory === category
                     ? 'bg-primary text-white shadow-lg scale-105'
                     : 'bg-white text-foreground hover:bg-primary/10 hover:scale-105'
-                }`}
+                  }`}
               >
                 {category}
               </button>
@@ -201,10 +200,11 @@ const Gallery = () => {
                 className="group overflow-hidden cursor-pointer hover:shadow-2xl transition-all duration-300 hover:scale-105 animate-fade-in"
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
-                <div className="relative aspect-square overflow-hidden">
+                <div className="relative aspect-square overflow-hidden bg-muted">
                   <img
                     src={image.url}
                     alt={image.title}
+                    loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
