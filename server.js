@@ -1,26 +1,17 @@
+import express from 'express';
+import cors from 'cors';
 import { Resend } from 'resend';
+import dotenv from 'dotenv';
 
+dotenv.config();
+
+const app = express();
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export default async function handler(req: any, res: any) {
-  // Set CORS headers
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
-  );
+app.use(cors());
+app.use(express.json());
 
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
-  }
-
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
+app.post('/api/send-email', async (req, res) => {
   try {
     const { type, data } = req.body;
 
@@ -72,8 +63,7 @@ export default async function handler(req: any, res: any) {
         return res.status(400).json({ error: 'Invalid email type' });
     }
 
-    // Get reply-to email from form data
-    const replyToEmail = data.email || data.parentName || '';
+    const replyToEmail = data.email || '';
 
     const result = await resend.emails.send({
       from: 'Mahatma Valley Pre-school <onboarding@resend.dev>',
@@ -83,9 +73,15 @@ export default async function handler(req: any, res: any) {
       html: emailContent,
     });
 
-    return res.status(200).json({ success: true, data: result });
-  } catch (error: any) {
+    res.json({ success: true, data: result });
+  } catch (error) {
     console.error('Error sending email:', error);
-    return res.status(500).json({ error: error.message || 'Failed to send email' });
+    res.status(500).json({ error: error.message || 'Failed to send email' });
   }
-}
+});
+
+const PORT = 3001;
+app.listen(PORT, () => {
+  console.log(`✅ Email server running on http://localhost:${PORT}`);
+  console.log(`📧 Emails will be sent to: mahatmavalley@gmail.com`);
+});
