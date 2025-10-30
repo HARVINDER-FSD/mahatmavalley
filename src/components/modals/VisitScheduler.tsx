@@ -10,6 +10,7 @@ import { CalendarIcon, Clock, MapPin } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import { sendVisitScheduleEmail } from "@/lib/email";
 
 interface VisitSchedulerProps {
   isOpen: boolean;
@@ -18,6 +19,7 @@ interface VisitSchedulerProps {
 
 const VisitScheduler = ({ isOpen, onClose }: VisitSchedulerProps) => {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedCampus, setSelectedCampus] = useState("");
@@ -35,7 +37,7 @@ const VisitScheduler = ({ isOpen, onClose }: VisitSchedulerProps) => {
     { value: "mithakhali", label: "Mithakhali Campus", address: "Mithakhali, Ahmedabad" }
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!selectedDate || !selectedTime || !selectedCampus || !parentName || !phone) {
@@ -46,29 +48,40 @@ const VisitScheduler = ({ isOpen, onClose }: VisitSchedulerProps) => {
       return;
     }
 
-    // Here you would typically send data to your backend
-    console.log("Visit scheduled:", {
-      date: selectedDate,
-      time: selectedTime,
-      campus: selectedCampus,
-      parentName,
-      phone,
-      email
-    });
-    
-    toast({
-      title: "Visit Scheduled!",
-      description: `Your visit is confirmed for ${format(selectedDate, 'PPP')} at ${selectedTime}`
-    });
-    
-    onClose();
-    // Reset form
-    setSelectedDate(undefined);
-    setSelectedTime("");
-    setSelectedCampus("");
-    setParentName("");
-    setPhone("");
-    setEmail("");
+    setIsSubmitting(true);
+
+    try {
+      await sendVisitScheduleEmail({
+        parentName,
+        phone,
+        email,
+        preferredDate: format(selectedDate, 'PPP'),
+        preferredTime: selectedTime,
+        campus: selectedCampus
+      });
+      
+      toast({
+        title: "Visit Scheduled!",
+        description: `Your visit is confirmed for ${format(selectedDate, 'PPP')} at ${selectedTime}`
+      });
+      
+      onClose();
+      // Reset form
+      setSelectedDate(undefined);
+      setSelectedTime("");
+      setSelectedCampus("");
+      setParentName("");
+      setPhone("");
+      setEmail("");
+    } catch (error) {
+      toast({
+        title: "Failed to schedule visit",
+        description: "Please try again or contact us directly.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -199,11 +212,11 @@ const VisitScheduler = ({ isOpen, onClose }: VisitSchedulerProps) => {
           </div>
 
           <div className="flex gap-3 pt-4">
-            <Button type="button" variant="outline" onClick={onClose} className="flex-1">
+            <Button type="button" variant="outline" onClick={onClose} className="flex-1" disabled={isSubmitting}>
               Cancel
             </Button>
-            <Button type="submit" variant="hero" className="flex-1">
-              Schedule Visit
+            <Button type="submit" variant="hero" className="flex-1" disabled={isSubmitting}>
+              {isSubmitting ? 'Scheduling...' : 'Schedule Visit'}
             </Button>
           </div>
         </form>

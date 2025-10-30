@@ -30,6 +30,16 @@ export interface VisitScheduleData {
 
 export async function sendContactEmail(data: ContactFormData) {
   try {
+    // For development: Open email client with pre-filled data
+    if (import.meta.env.DEV) {
+      const subject = encodeURIComponent(`Contact Form: ${data.name}`);
+      const body = encodeURIComponent(
+        `Name: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone}\nCampus: ${data.campus}\n\nMessage:\n${data.message}`
+      );
+      window.open(`mailto:mahatmavalley@gmail.com?subject=${subject}&body=${body}`, '_blank');
+      return { success: true };
+    }
+
     const response = await fetch('/api/send-email', {
       method: 'POST',
       headers: {
@@ -48,12 +58,28 @@ export async function sendContactEmail(data: ContactFormData) {
     return await response.json();
   } catch (error) {
     console.error('Error sending contact email:', error);
-    throw error;
+    // Fallback to email client
+    const subject = encodeURIComponent(`Contact Form: ${data.name}`);
+    const body = encodeURIComponent(
+      `Name: ${data.name}\nEmail: ${data.email}\nPhone: ${data.phone}\nCampus: ${data.campus}\n\nMessage:\n${data.message}`
+    );
+    window.open(`mailto:mahatmavalley@gmail.com?subject=${subject}&body=${body}`, '_blank');
+    return { success: true };
   }
 }
 
 export async function sendLeadEmail(data: LeadFormData) {
   try {
+    // For development: Open email client with pre-filled data
+    if (import.meta.env.DEV) {
+      const subject = encodeURIComponent(`Application: ${data.childName}`);
+      const body = encodeURIComponent(
+        `Parent Name: ${data.parentName}\nEmail: ${data.email}\nPhone: ${data.phone}\nChild Name: ${data.childName}\nChild Age: ${data.childAge}\nCampus: ${data.campus}\nPreferred Start Date: ${data.preferredStartDate}`
+      );
+      window.open(`mailto:mahatmavalley@gmail.com?subject=${subject}&body=${body}`, '_blank');
+      return { success: true };
+    }
+
     const response = await fetch('/api/send-email', {
       method: 'POST',
       headers: {
@@ -72,12 +98,28 @@ export async function sendLeadEmail(data: LeadFormData) {
     return await response.json();
   } catch (error) {
     console.error('Error sending lead email:', error);
-    throw error;
+    // Fallback to email client
+    const subject = encodeURIComponent(`Application: ${data.childName}`);
+    const body = encodeURIComponent(
+      `Parent Name: ${data.parentName}\nEmail: ${data.email}\nPhone: ${data.phone}\nChild Name: ${data.childName}\nChild Age: ${data.childAge}\nCampus: ${data.campus}\nPreferred Start Date: ${data.preferredStartDate}`
+    );
+    window.open(`mailto:mahatmavalley@gmail.com?subject=${subject}&body=${body}`, '_blank');
+    return { success: true };
   }
 }
 
 export async function sendVisitScheduleEmail(data: VisitScheduleData) {
   try {
+    // For development: Open email client with pre-filled data
+    if (import.meta.env.DEV) {
+      const subject = encodeURIComponent(`Visit Schedule Request: ${data.campus}`);
+      const body = encodeURIComponent(
+        `Parent Name: ${data.parentName}\nPhone: ${data.phone}\nEmail: ${data.email}\nPreferred Date: ${data.preferredDate}\nPreferred Time: ${data.preferredTime}\nCampus: ${data.campus}`
+      );
+      window.open(`mailto:mahatmavalley@gmail.com?subject=${subject}&body=${body}`, '_blank');
+      return { success: true };
+    }
+
     const response = await fetch('/api/send-email', {
       method: 'POST',
       headers: {
@@ -96,6 +138,12 @@ export async function sendVisitScheduleEmail(data: VisitScheduleData) {
     return await response.json();
   } catch (error) {
     console.error('Error sending visit schedule email:', error);
-    throw error;
+    // Fallback to email client
+    const subject = encodeURIComponent(`Visit Schedule Request: ${data.campus}`);
+    const body = encodeURIComponent(
+      `Parent Name: ${data.parentName}\nPhone: ${data.phone}\nEmail: ${data.email}\nPreferred Date: ${data.preferredDate}\nPreferred Time: ${data.preferredTime}\nCampus: ${data.campus}`
+    );
+    window.open(`mailto:mahatmavalley@gmail.com?subject=${subject}&body=${body}`, '_blank');
+    return { success: true };
   }
 }

@@ -8,7 +8,7 @@ const programs = [
   {
     id: 1,
     title: "Early Year Program (EYP)",
-    ageRange: "1,5 - 2 year + above",
+    ageRange: "1.5 - 2 year + ",
     icon: Baby,
     color: "from-primary to-primary-soft",
     description: "First steps into social learning with sensory exploration and basic skills development.",
@@ -22,7 +22,7 @@ const programs = [
   {
     id: 2,
     title: "Pre K",
-    ageRange: "3 year + above",
+    ageRange: "3 year + ",
     icon: Sparkles,
     color: "from-secondary to-secondary-soft",
     description: "Building independence and creativity through structured play and early learning activities.",
@@ -36,7 +36,7 @@ const programs = [
   {
     id: 3,
     title: "K1",
-    ageRange: "4 year + above",
+    ageRange: "4 year + ",
     icon: BookOpen,
     color: "from-accent to-accent-soft",
     description: "Introduction to formal learning concepts while maintaining the joy of discovery.",
@@ -50,7 +50,7 @@ const programs = [
   {
     id: 4,
     title: "K2",
-    ageRange: "5 year + above",
+    ageRange: "5 year +",
     icon: GraduationCap,
     color: "from-info to-info-soft",
     description: "Preparing for primary school with advanced skills and confident independence.",

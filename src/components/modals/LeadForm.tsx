@@ -5,8 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { sendLeadEmail } from "@/lib/email";
 
 interface LeadFormProps {
   isOpen: boolean;
@@ -16,17 +16,20 @@ interface LeadFormProps {
 
 const LeadForm = ({ isOpen, onClose, type }: LeadFormProps) => {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     parentName: "",
     email: "",
     phone: "",
     childName: "",
+    childAge: "",
     campus: "",
+    preferredStartDate: "",
     program: "",
     message: ""
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     // Basic validation
@@ -38,25 +41,46 @@ const LeadForm = ({ isOpen, onClose, type }: LeadFormProps) => {
       return;
     }
 
-    // Here you would typically send data to your backend
-    console.log("Form submitted:", formData);
-    
-    toast({
-      title: type === 'application' ? "Application Submitted!" : "Inquiry Submitted!",
-      description: "We'll get back to you within 24 hours."
-    });
-    
-    onClose();
-    // Reset form
-    setFormData({
-      parentName: "",
-      email: "",
-      phone: "",
-      childName: "",
-      campus: "",
-      program: "",
-      message: ""
-    });
+    setIsSubmitting(true);
+
+    try {
+      await sendLeadEmail({
+        parentName: formData.parentName,
+        email: formData.email,
+        phone: formData.phone,
+        childName: formData.childName,
+        childAge: formData.childAge || formData.program,
+        campus: formData.campus,
+        preferredStartDate: formData.preferredStartDate || "2025-26"
+      });
+      
+      toast({
+        title: type === 'application' ? "Application Submitted!" : "Inquiry Submitted!",
+        description: "We'll get back to you within 24 hours."
+      });
+      
+      onClose();
+      // Reset form
+      setFormData({
+        parentName: "",
+        email: "",
+        phone: "",
+        childName: "",
+        childAge: "",
+        campus: "",
+        preferredStartDate: "",
+        program: "",
+        message: ""
+      });
+    } catch (error) {
+      toast({
+        title: "Failed to submit",
+        description: "Please try again or contact us directly.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -171,11 +195,11 @@ const LeadForm = ({ isOpen, onClose, type }: LeadFormProps) => {
           </div>
 
           <div className="flex gap-3 pt-4">
-            <Button type="button" variant="outline" onClick={onClose} className="flex-1">
+            <Button type="button" variant="outline" onClick={onClose} className="flex-1" disabled={isSubmitting}>
               Cancel
             </Button>
-            <Button type="submit" variant="hero" className="flex-1">
-              {type === 'application' ? 'Submit Application' : 'Send Inquiry'}
+            <Button type="submit" variant="hero" className="flex-1" disabled={isSubmitting}>
+              {isSubmitting ? 'Submitting...' : (type === 'application' ? 'Submit Application' : 'Send Inquiry')}
             </Button>
           </div>
         </form>

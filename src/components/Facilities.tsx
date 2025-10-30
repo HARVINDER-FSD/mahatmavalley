@@ -29,10 +29,10 @@ const facilities = [
     title: "Swimming Pool",
     icon: Waves,
     color: "from-info to-info-soft",
-    description: "Child-friendly swimming pool with qualified instructors for water safety and basic swimming skills.",
-    fullDescription: "Our heated swimming pool is designed specifically for young children with shallow areas and non-slip surfaces. Professional swim instructors provide water safety education and age-appropriate swimming lessons.",
+    description: "Child-friendly swimming pool designed for water safety and fun activities.",
+    fullDescription: "Our heated swimming pool is designed specifically for young children with shallow areas and non-slip surfaces, providing a safe environment for water activities and fun.",
     image: null,
-    features: ["Heated water", "Shallow depth", "Professional instructors", "Safety equipment"]
+    features: ["Heated water", "Shallow depth", "Non-slip surfaces", "Safety equipment"]
   },
   {
     id: 3,
@@ -87,7 +87,6 @@ const facilities = [
 ];
 
 const Facilities = () => {
-  const [selectedFacility, setSelectedFacility] = useState<typeof facilities[0] | null>(null);
   const [showVisitScheduler, setShowVisitScheduler] = useState(false);
 
   return (
@@ -114,7 +113,6 @@ const Facilities = () => {
                   <Card
                     className={`p-6 card-hover cursor-pointer border-none shadow-lg animate-slide-up bg-gradient-to-br ${facility.color} text-white h-full transition-all duration-300 hover:shadow-2xl hover:-translate-y-2`}
                     style={{ animationDelay: `${index * 0.1}s` }}
-                    onClick={() => setSelectedFacility(facility)}
                   >
                     <div className="text-center">
                       <div className="bg-white/20 backdrop-blur-sm w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
