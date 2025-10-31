@@ -182,8 +182,8 @@ const Gallery = () => {
                 key={category}
                 onClick={() => setSelectedCategory(category)}
                 className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${selectedCategory === category
-                    ? 'bg-primary text-white shadow-lg scale-105'
-                    : 'bg-white text-foreground hover:bg-primary/10 hover:scale-105'
+                  ? 'bg-primary text-white shadow-lg scale-105'
+                  : 'bg-white text-foreground hover:bg-primary/10 hover:scale-105'
                   }`}
               >
                 {category}

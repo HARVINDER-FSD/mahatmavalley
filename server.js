@@ -12,16 +12,16 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/api/send-email', async (req, res) => {
-  try {
-    const { type, data } = req.body;
+    try {
+        const { type, data } = req.body;
 
-    let emailContent = '';
-    let subject = '';
+        let emailContent = '';
+        let subject = '';
 
-    switch (type) {
-      case 'contact':
-        subject = `New Contact Form Submission - ${data.campus}`;
-        emailContent = `
+        switch (type) {
+            case 'contact':
+                subject = `New Contact Form Submission - ${data.campus}`;
+                emailContent = `
           <h2>New Contact Form Submission</h2>
           <p><strong>Name:</strong> ${data.name}</p>
           <p><strong>Email:</strong> ${data.email}</p>
@@ -30,11 +30,11 @@ app.post('/api/send-email', async (req, res) => {
           <p><strong>Message:</strong></p>
           <p>${data.message}</p>
         `;
-        break;
+                break;
 
-      case 'lead':
-        subject = `New Application - ${data.childName}`;
-        emailContent = `
+            case 'lead':
+                subject = `New Application - ${data.childName}`;
+                emailContent = `
           <h2>New Application Submission</h2>
           <p><strong>Parent Name:</strong> ${data.parentName}</p>
           <p><strong>Email:</strong> ${data.email}</p>
@@ -44,11 +44,11 @@ app.post('/api/send-email', async (req, res) => {
           <p><strong>Campus:</strong> ${data.campus}</p>
           <p><strong>Preferred Start Date:</strong> ${data.preferredStartDate}</p>
         `;
-        break;
+                break;
 
-      case 'visit':
-        subject = `New Visit Schedule Request - ${data.campus}`;
-        emailContent = `
+            case 'visit':
+                subject = `New Visit Schedule Request - ${data.campus}`;
+                emailContent = `
           <h2>New Visit Schedule Request</h2>
           <p><strong>Parent Name:</strong> ${data.parentName}</p>
           <p><strong>Phone:</strong> ${data.phone}</p>
@@ -57,31 +57,31 @@ app.post('/api/send-email', async (req, res) => {
           <p><strong>Preferred Time:</strong> ${data.preferredTime}</p>
           <p><strong>Campus:</strong> ${data.campus}</p>
         `;
-        break;
+                break;
 
-      default:
-        return res.status(400).json({ error: 'Invalid email type' });
+            default:
+                return res.status(400).json({ error: 'Invalid email type' });
+        }
+
+        const replyToEmail = data.email || '';
+
+        const result = await resend.emails.send({
+            from: 'Mahatma Valley Pre-school <onboarding@resend.dev>',
+            to: ['mahatmavalley@gmail.com'],
+            replyTo: replyToEmail,
+            subject: subject,
+            html: emailContent,
+        });
+
+        res.json({ success: true, data: result });
+    } catch (error) {
+        console.error('Error sending email:', error);
+        res.status(500).json({ error: error.message || 'Failed to send email' });
     }
-
-    const replyToEmail = data.email || '';
-
-    const result = await resend.emails.send({
-      from: 'Mahatma Valley Pre-school <onboarding@resend.dev>',
-      to: ['mahatmavalley@gmail.com'],
-      replyTo: replyToEmail,
-      subject: subject,
-      html: emailContent,
-    });
-
-    res.json({ success: true, data: result });
-  } catch (error) {
-    console.error('Error sending email:', error);
-    res.status(500).json({ error: error.message || 'Failed to send email' });
-  }
 });
 
 const PORT = 3001;
 app.listen(PORT, () => {
-  console.log(`✅ Email server running on http://localhost:${PORT}`);
-  console.log(`📧 Emails will be sent to: mahatmavalley@gmail.com`);
+    console.log(`✅ Email server running on http://localhost:${PORT}`);
+    console.log(`📧 Emails will be sent to: mahatmavalley@gmail.com`);
 });
