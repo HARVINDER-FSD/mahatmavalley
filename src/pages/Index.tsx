@@ -25,13 +25,13 @@ const Index = () => {
             <div className="col-span-1 md:col-span-2">
               <div className="flex items-center space-x-2 mb-4">
                 <img 
-                  src="/favicon.png" 
+                  src="/footer.png" 
                   alt="Mahatma Valley Pre-school Logo"
                   className="w-8 h-8 object-contain rounded-full"
                 />
                 <div>
-                  <h3 className="text-lg font-bold">Mahatma Valley Pre-school</h3>
-                  <p className="text-sm text-white/80">Nurturing Tomorrow's Leaders</p>
+                  <h3 className="text-lg font-medium uppercase" style={{ fontFamily: "'Fredoka', sans-serif" }}>Mahatma Valley Pre-school</h3>
+                  <p className="text-sm text-white/80 uppercase" style={{ fontFamily: "'Fredoka', sans-serif" }}>Nurturing Tomorrow's Leaders</p>
                 </div>
               </div>
               <p className="text-white/80 mb-4 max-w-md">
@@ -84,8 +84,15 @@ const Index = () => {
             </div>
           </div>
           
-          <div className="border-t border-white/20 mt-8 pt-8 text-center text-white/60 text-sm">
-            <p>&copy; 2024 Mahatma Valley Pre-school. All rights reserved. | Designed with ❤️ for children</p>
+          <div className="border-t border-white/20 mt-8 pt-8">
+            <div className="flex flex-col items-center space-y-4">
+              {/* <img 
+                src="" 
+                alt="Mahatma Valley Footer" 
+                className="max-w-full h-auto"
+              /> */}
+              <p className="text-center text-white/60 text-sm">&copy; 2024 Mahatma Valley Pre-school. All rights reserved. | Designed with ❤️ for children</p>
+            </div>
           </div>
         </div>
       </footer>

@@ -26,6 +26,7 @@ const VisitScheduler = ({ isOpen, onClose }: VisitSchedulerProps) => {
   const [parentName, setParentName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
 
   const timeSlots = [
     "9:00 AM", "10:00 AM", "11:00 AM", "12:00 PM",
@@ -39,7 +40,7 @@ const VisitScheduler = ({ isOpen, onClose }: VisitSchedulerProps) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!selectedDate || !selectedTime || !selectedCampus || !parentName || !phone) {
       toast({
         title: "Please fill all required fields",
@@ -59,12 +60,12 @@ const VisitScheduler = ({ isOpen, onClose }: VisitSchedulerProps) => {
         preferredTime: selectedTime,
         campus: selectedCampus
       });
-      
+
       toast({
         title: "Visit Scheduled!",
         description: `Your visit is confirmed for ${format(selectedDate, 'PPP')} at ${selectedTime}`
       });
-      
+
       onClose();
       // Reset form
       setSelectedDate(undefined);
@@ -95,7 +96,7 @@ const VisitScheduler = ({ isOpen, onClose }: VisitSchedulerProps) => {
             Book a personalized tour of Mahatma Valley Pre-school campus
           </DialogDescription>
         </DialogHeader>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Campus Selection */}
           <div className="space-y-2">
@@ -124,7 +125,7 @@ const VisitScheduler = ({ isOpen, onClose }: VisitSchedulerProps) => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label className="text-base font-medium">Select Date *</Label>
-              <Popover>
+              <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
@@ -137,11 +138,14 @@ const VisitScheduler = ({ isOpen, onClose }: VisitSchedulerProps) => {
                     {selectedDate ? format(selectedDate, "PPP") : "Pick a date"}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className="w-auto p-0" align="start" side="bottom">
                   <Calendar
                     mode="single"
                     selected={selectedDate}
-                    onSelect={setSelectedDate}
+                    onSelect={(date) => {
+                      setSelectedDate(date);
+                      setIsCalendarOpen(false); // Close calendar immediately after selection
+                    }}
                     disabled={(date) => date < new Date() || date.getDay() === 0} // Disable past dates and Sundays
                     initialFocus
                     className={cn("p-3 pointer-events-auto")}
@@ -173,7 +177,7 @@ const VisitScheduler = ({ isOpen, onClose }: VisitSchedulerProps) => {
           {/* Contact Information */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Contact Details</h3>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="parentName">Parent/Guardian Name *</Label>
@@ -185,7 +189,7 @@ const VisitScheduler = ({ isOpen, onClose }: VisitSchedulerProps) => {
                   required
                 />
               </div>
-              
+
               <div className="space-y-2">
                 <Label htmlFor="phone">Phone Number *</Label>
                 <Input

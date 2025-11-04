@@ -176,7 +176,7 @@ const Facilities = () => {
               <Button variant="hero" size="lg" onClick={() => setShowVisitScheduler(true)}>
                 Schedule Campus Tour
               </Button>
-              <Button
+              {/* <Button
                 variant="outline"
                 size="lg"
                 onClick={() => {
@@ -185,7 +185,7 @@ const Facilities = () => {
                 }}
               >
                 Virtual Tour
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>

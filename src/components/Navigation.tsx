@@ -23,8 +23,8 @@ const Navigation = () => {
               className="w-12 h-12 object-contain"
             />
             <div>
-              <h1 className="text-xl font-bold text-foreground">Mahatma Valley</h1>
-              <p className="text-sm text-muted-foreground">Pre-school</p>
+              <h1 className="text-xl font-medium text-foreground uppercase" style={{ fontFamily: "'Fredoka', sans-serif" }}>Mahatma Valley</h1>
+              <p className="text-sm text-muted-foreground uppercase" style={{ fontFamily: "'Fredoka', sans-serif" }}>Pre-school</p>
             </div>
           </div>
 

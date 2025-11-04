@@ -2,7 +2,7 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Card } from "@/components/ui/card";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Play } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const videoTestimonials = [
   {
@@ -42,6 +42,30 @@ const videoTestimonials = [
   }
 ];
 
+const VideoThumbnail = ({ video, onClick }: { video: typeof videoTestimonials[0], onClick: () => void }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      // Load the video and seek to 0.1 seconds to show first frame
+      videoRef.current.currentTime = 0.1;
+    }
+  }, []);
+
+  return (
+    <div className="relative aspect-[9/16] bg-black cursor-pointer" onClick={onClick}>
+      <video
+        ref={videoRef}
+        src={video.videoUrl}
+        className="w-full h-full object-cover"
+        preload="metadata"
+        muted
+        playsInline
+      />
+    </div>
+  );
+};
+
 const VideoTestimonials = () => {
   const [selectedVideo, setSelectedVideo] = useState<typeof videoTestimonials[0] | null>(null);
 
@@ -64,30 +88,11 @@ const VideoTestimonials = () => {
               {videoTestimonials.map((video, index) => (
                 <Card
                   key={video.id}
-                  onClick={() => setSelectedVideo(video)}
                   className="inline-block w-[350px] overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-300 hover:scale-105 animate-fade-in"
                   style={{ animationDelay: `${index * 0.15}s` }}
                 >
-                  <div className="relative aspect-[9/16] bg-muted">
-                    <video
-                      src={video.videoUrl}
-                      className="w-full h-full object-cover"
-                      preload="metadata"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <VideoThumbnail video={video} onClick={() => setSelectedVideo(video)} />
 
-                    {/* Play Button Overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center hover:bg-white hover:scale-110 transition-all duration-300">
-                        <Play className="w-8 h-8 text-primary fill-current ml-1" />
-                      </div>
-                    </div>
-
-                    {/* Duration Badge */}
-                    <div className="absolute bottom-3 right-3 bg-black/80 text-white text-xs px-2 py-1 rounded">
-                      {video.duration}
-                    </div>
-                  </div>
 
                   <div className="p-4">
                     <p className="font-semibold text-foreground">{video.parentName}</p>
